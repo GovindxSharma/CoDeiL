@@ -5,7 +5,7 @@ module.exports.profile=function(req,res){
         name:'Govind'
     })
 }
-
+bena
 module.exports.post=function(req,res){
     return res.end('<h1>POst</h1>');
 }
@@ -41,5 +41,5 @@ module.exports.create = async function (req, res) {
   };
 
 module.exports.createSession=function(req,res){
-    
+    return res.redirect('profile')
 }
