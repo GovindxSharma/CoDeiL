@@ -1,25 +1,28 @@
 const User=require('../models/user')
+//profile render
 module.exports.profile=function(req,res){
     return res.render('users',{
-        title:'heading',
-        name:'Govind'
+        title:'User Profile'
+        // name:'Govind'
     })
 }
-bena
-module.exports.post=function(req,res){
-    return res.end('<h1>POst</h1>');
-}
-
-module.exports.signup=function(req,res){
-    return res.render('sign_up',{
-        title:'Sign_up'
-    })
-}
-module.exports.signin=function(req,res){
-    return res.render('sign_in',{
-        title:'Sign_In'
-    })
-}
+// render the sign up page
+module.exports.signup = function(req, res){
+  if (req.isAuthenticated()){
+  return res.redirect('/users/profile');
+  }
+  return res.render('sign_up', {
+  title: "Codeil | Sign Up"
+  })
+  }
+module.exports.signin = function(req, res){
+  if (req.isAuthenticated()){
+  return res.redirect('/users/profile');
+  }
+  return res.render('sign_in', {
+  title: "Codeil | Sign In"
+  })
+  }
 module.exports.create = async function (req, res) {
     try {
       if (req.body.password !== req.body.confirm_password) {
@@ -30,7 +33,7 @@ module.exports.create = async function (req, res) {
   
       if (!existingUser) {
         await User.create(req.body); // Creating the user directly
-        return res.redirect('/users/sign_in');
+        return res.redirect('/users/sign-in');
       } else {
         return res.redirect('back');
       }
@@ -40,6 +43,17 @@ module.exports.create = async function (req, res) {
     }
   };
 
-module.exports.createSession=function(req,res){
-    return res.redirect('profile')
-}
+// sign in and create a session for the user
+module.exports.createSession = function(req, res){
+  return res.redirect('back');
+  }
+  
+  module.exports.destroySession = function (req, res) {
+    req.logout(function (err) {
+      if (err) {
+        console.log('Error in logging out:', err);
+      }
+      return res.redirect('back');
+    });
+  };
+  
